@@ -4,6 +4,8 @@ from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from . import models, serializers
 
+def home(request):
+    return render(request, 'postit_api/index.html')
 
 class PostList(generics.ListCreateAPIView):
     queryset = models.Post.objects.all()
