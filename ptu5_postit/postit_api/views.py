@@ -4,6 +4,10 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
 from . import models, serializers
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 def home(request):
     return render(request, 'postit_api/index.html')
@@ -91,3 +95,10 @@ class PostLikeCreate(generics.CreateAPIView, mixins.DestroyModelMixin):
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             raise ValidationError(_('You do not like this post to begin with.'))
+
+
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.AllowAny]
+    
